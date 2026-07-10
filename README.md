@@ -1,105 +1,114 @@
 # 🚤 BoatNow
 
-> **India's #1 (fictional) On-Demand Urban Water Mobility Platform**
+> **When roads become rivers, BoatNow gets you there.**
 
-BoatNow is a satirical, mobile-first web application that lets users hire boats by the hour whenever heavy rainfall floods city streets. Inspired by ride-hailing apps like Uber, the project imagines a world where roads become rivers and the fastest way to your destination is... by boat.
+BoatNow is a satirical, mobile-first web application that lets users hire boats on an hourly basis whenever heavy rainfall floods city streets. Inspired by ride-hailing platforms like Uber, it reimagines urban transportation during monsoon flooding with a polished, startup-quality user experience.
 
-Although the concept is humorous, the application is designed as a polished startup MVP with a focus on clean UI, intuitive UX, responsive design, and modern web development practices.
+Although the concept is humorous, the application is designed as if it were a real commercial product, with a focus on intuitive UX, responsive design, accessibility, and modern web technologies.
 
 ---
 
 ## 🌧️ The Idea
 
-Monsoon season arrives.
+Imagine this...
 
-Roads disappear.
+The roads are flooded.
 
-Traffic comes to a standstill.
+Traffic has come to a standstill.
 
-**BoatNow** lets you skip the traffic and book a boat instead.
+Your cab cancelled.
 
-Because why wait in a traffic jam when you can sail through it?
+Instead of waiting, you open **BoatNow**, book the nearest available boat, and sail to your destination.
+
+It's completely fictional... but surprisingly believable.
 
 ---
 
 ## ✨ Features
 
-- 🚣 Book boats by the hour
-- 📍 Location-based boat discovery
-- 🗺️ Interactive map view
+- 🚤 Hourly boat booking
+- 📍 Automatic location detection
+- 🗺️ Interactive map with nearby boats
 - 📅 Real-time boat availability
 - ⭐ Captain ratings & reviews
-- 💳 Secure booking flow (mock payment)
-- 📱 Mobile-first responsive design
-- 🌊 Dynamic flood severity indicator
+- 💳 Secure booking flow (demo)
+- 📱 Mobile-first responsive interface
+- 🌊 Flood severity indicator
 - 🎨 Modern UI with smooth animations
 - 👤 User authentication
 - 📖 Booking history
-- 🛟 Emergency "SOS Boat" mode
-- 😄 Tasteful water-themed humor throughout the app
-
----
-
-## 📸 Preview
-
-> *Screenshots coming soon.*
+- 🛟 One-tap SOS booking mode
+- 😄 Water-themed humor and Easter eggs
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-
 - React
 - TypeScript
 - Vite
 - Tailwind CSS
 
 ### Backend
-
 - Firebase / Supabase *(depending on deployment)*
 
-### Maps
-
-- Google Maps API / OpenStreetMap
-
 ### Authentication
-
 - Firebase Authentication / Supabase Auth
 
-### Deployment
+### Maps
+- Google Maps API / OpenStreetMap
 
+### Deployment
 - Vercel
 
 ---
 
-## 🎯 Design Goals
+## 🎯 Design Principles
 
-BoatNow was designed with the following principles:
+BoatNow was designed around five core principles:
 
 - Mobile-first
-- Accessible
-- Fast
-- Minimal
-- Easy enough for anyone to use
-- One booking in under 30 seconds
-- Modern startup-quality UI
+- Simple and intuitive
+- Accessible to everyone
+- Fast and responsive
+- Fun without compromising usability
+
+The goal was to create an interface that someone could understand and complete a booking in under **30 seconds**.
 
 ---
 
 ## 😂 Fun Features
 
-BoatNow doesn't take itself too seriously.
-
-You'll find fun touches like:
+Some of the small details include:
 
 - 🌧️ Flood Severity Indicator
 - 🚣 "Your Uber is now a canoe."
-- 🌊 "Estimated Splash Time"
-- 🦆 Water-themed loading animations
+- 🌊 Estimated Splash Time
+- 🦆 Water-themed loading messages
 - 🛟 Captain personalities
-- 🎉 Hidden Easter eggs
-- 🏆 Achievement badges
+- 🏆 Hidden achievements
+- 🎉 Easter eggs throughout the application
+
+---
+
+## 🤖 AI-Assisted Development
+
+BoatNow was developed using an **AI-assisted ("vibe coding") workflow**.
+
+I was responsible for:
+
+- Product ideation
+- Feature planning
+- User experience design
+- Prompt engineering
+- Architecture decisions
+- Design iteration
+- Testing and refinement
+
+Google Vertex AI was used to rapidly generate and iterate on the application based on detailed product specifications and continuous feedback.
+
+Rather than manually writing every line of code, this project demonstrates how modern AI development tools can be used to quickly prototype, refine, and ship polished software while maintaining control over the product vision and user experience.
 
 ---
 
@@ -108,7 +117,7 @@ You'll find fun touches like:
 Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/boatnow.git
+git clone https://github.com/iamaadityam/boatnow.git
 ```
 
 Install dependencies
@@ -123,13 +132,13 @@ Run the development server
 npm run dev
 ```
 
-Build for production
+Create a production build
 
 ```bash
 npm run build
 ```
 
-Preview production build
+Preview the production build
 
 ```bash
 npm run preview
@@ -137,18 +146,18 @@ npm run preview
 
 ---
 
-## 📂 Project Structure
+## 📁 Project Structure
 
 ```
 src/
- ├── components/
- ├── pages/
- ├── hooks/
- ├── services/
- ├── assets/
- ├── utils/
- ├── types/
- └── App.tsx
+├── components/
+├── pages/
+├── hooks/
+├── services/
+├── assets/
+├── utils/
+├── types/
+└── App.tsx
 ```
 
 ---
@@ -159,10 +168,12 @@ BoatNow draws inspiration from the user experience of:
 
 - Uber
 - Airbnb
-- Blinkit
 - Swiggy
+- Blinkit
 
-while imagining a world where urban flooding creates a whole new transportation industry.
+...while asking one very important question:
+
+> **What if the roads flooded so badly that boats became the fastest way to commute?**
 
 ---
 
@@ -178,12 +189,16 @@ It is **not** an actual transportation service and is not affiliated with any re
 
 **Aaditya Malhotra**
 
-- 🌐 Portfolio: https://aaditya-malhotra-portfolio.vercel.app
-- 💼 LinkedIn: *(Add your LinkedIn URL)*
-- 🐙 GitHub: https://github.com/iamaadityam
+🌐 Portfolio: https://aaditya-malhotra-portfolio.vercel.app
+
+🐙 GitHub: https://github.com/iamaadityam
+
+💼 LinkedIn: https://www.linkedin.com/in/malhotra-aaditya
 
 ---
 
-## ⭐ If you enjoyed this project...
+## ⭐ Support
 
-Give it a ⭐ on GitHub!
+If you enjoyed this project, consider giving it a ⭐ on GitHub!
+
+Feedback and suggestions are always welcome.
