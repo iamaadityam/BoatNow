@@ -15,32 +15,32 @@ interface AppContextType {
   sosActive: boolean;
   activeTrackingBooking: Booking | null;
   trackingBoatCoords: { x: number; y: number } | null;
-  
+
   // Auth Actions
   setCurrentUser: (user: UserProfile | null) => void;
   registerUser: (name: string, email: string, role: UserRole, phone?: string) => UserProfile;
   loginUser: (email: string) => boolean;
   logoutUser: () => void;
   switchRole: (role: UserRole) => void;
-  
+
   // Boat Actions
   registerBoat: (boatData: Omit<Boat, 'id' | 'ownerId' | 'ownerName' | 'rating' | 'reviewsCount' | 'distanceKm' | 'coordinates' | 'captainRating' | 'captainAvatarUrl' | 'status'>) => void;
   updateBoatAvailability: (boatId: string, blockedDates: string[]) => void;
   toggleBoatStatus: (boatId: string) => void; // Admin/Owner: Toggle active/suspended
-  
+
   // Booking Actions
   createBooking: (boatId: string, date: string, startTime: string, hours: number, needLifeJackets: boolean) => Booking;
   cancelBooking: (bookingId: string) => void;
   respondToBooking: (bookingId: string, accept: boolean) => void;
   triggerSOS: () => Booking | null;
   clearSOS: () => void;
-  
+
   // Payment Actions
   processStripePayment: (bookingId: string, paymentMethod: string, cardNumber: string) => Promise<PaymentLog>;
-  
+
   // Review Actions
   addReview: (boatId: string, cleanliness: number, punctuality: number, safety: number, overall: number, comment: string) => void;
-  
+
   // Settings Actions
   setFloodSeverity: (severity: FloodSeverity) => void;
   toggleTheme: () => void;
@@ -117,15 +117,15 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
           let url = b.imageUrl;
           let capUrl = b.captainAvatarUrl;
           if (url.includes('photo-1540959733332-eab4deceeaf7') || url.includes('photo-1505244208262-191301f22ced') || url.includes('amazon') || url.includes('I/81HVM5DoAQL')) {
-            url = '/images/boats/canoe.jpg';
+            url = '/images/boats/canoe.png';
           } else if (url.includes('photo-1567899378494-47b22a2ae96a') || url.includes('photo-1569263979104-865ab7cd8d13')) {
-            url = '/images/boats/motorboat.jpg';
+            url = '/images/boats/motorboat.png';
           } else if (url.includes('photo-1590490360182-c33d57733427') || url.includes('photo-1621252179027-94459d278660')) {
-            url = '/images/boats/shikara.jpg';
+            url = '/images/boats/shikara.png';
           } else if (url.includes('photo-1517176118179-c554e7686550') || url.includes('photo-1500375592092-40eb2168fd21') || url.includes('photo-1544551763-46a013bb70d5')) {
-            url = '/images/boats/kayak.jpg';
+            url = '/images/boats/kayak.png';
           } else if (url.includes('PCU_Indiana') || url.includes('wikimedia.org') || url.includes('photo-1559136555-9303baea8ebd')) {
-            url = '/images/boats/raft.jpg';
+            url = '/images/boats/raft.png';
           }
 
           if (capUrl && (capUrl.includes('photo-1507003211169-0a1dd7228f2d') || capUrl.includes('verma'))) {
@@ -253,7 +253,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     if (!currentUser) return;
     const updated = { ...currentUser, role };
     setCurrentUser(updated);
-    
+
     // Update in users array
     const updatedUsers = users.map(u => u.uid === currentUser.uid ? updated : u);
     setUsers(updatedUsers);
@@ -334,13 +334,13 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   // Booking: Create Booking (Pre-payment)
   const createBooking = (boatId: string, date: string, startTime: string, hours: number, needLifeJackets: boolean): Booking => {
     if (!currentUser) throw new Error('User must be logged in to book');
-    
+
     // Check double booking
-    const isDoubleBooked = bookings.some(b => 
-      b.boatId === boatId && 
-      b.date === date && 
-      b.startTime === startTime && 
-      b.status !== 'cancelled' && 
+    const isDoubleBooked = bookings.some(b =>
+      b.boatId === boatId &&
+      b.date === date &&
+      b.startTime === startTime &&
+      b.status !== 'cancelled' &&
       b.status !== 'rejected'
     );
     if (isDoubleBooked) {
@@ -432,10 +432,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
     // Notify customer
     const title = accept ? 'Captain Accepted Your Booking! 🛶' : 'Charter Request Rejected ❌';
-    const message = accept 
+    const message = accept
       ? `Captain is preparing the oars! Your booking for "${booking.boatName}" is confirmed for ${booking.date} at ${booking.startTime}.`
       : `Unfortunately, the Captain rejected your booking. The water levels might be too hostile or tea break is active.`;
-    
+
     addNotification(booking.customerId, title, message, 'booking_status');
 
     // Trigger map tracking if accepted
@@ -451,14 +451,14 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   // Booking: ONE-TAP SOS Emergency Mode!
   const triggerSOS = (): Booking | null => {
     if (!currentUser) return null;
-    
+
     // Find closest available active boat
     const availableBoats = boats.filter(b => b.status === 'active');
     if (availableBoats.length === 0) return null;
-    
+
     // Sort by distance
     const closestBoat = [...availableBoats].sort((a, b) => a.distanceKm - b.distanceKm)[0];
-    
+
     setSosActive(true);
 
     // Auto-create a confirmed, paid booking immediately for immediate deployment!
@@ -467,15 +467,15 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     const startTime = `${currentHour}:00`;
 
     const sosBooking = createBooking(closestBoat.id, today, startTime, 1, true);
-    
+
     // Auto-update to confirmed and paid
-    const updatedBookings = bookings.map(b => b.id === sosBooking.id ? { 
-      ...b, 
-      status: 'confirmed' as 'confirmed', 
+    const updatedBookings = bookings.map(b => b.id === sosBooking.id ? {
+      ...b,
+      status: 'confirmed' as 'confirmed',
       needLifeJackets: true,
       paymentId: `pay_sos_${Date.now()}`
     } : b);
-    
+
     // Append the newly created SOS booking as confirmed
     const finalSosBooking: Booking = {
       ...sosBooking,
@@ -539,7 +539,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         if (!booking) throw new Error('Booking not found');
 
         const txId = `pay_${Date.now()}`;
-        
+
         // 1. Update Booking state to confirmed/paid
         const updatedBookings = bookings.map(b => b.id === bookingId ? { ...b, status: 'confirmed' as 'confirmed', paymentId: txId } : b);
         setBookings(updatedBookings);
@@ -714,7 +714,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         if (dist < 2) {
           // Arrived!
           clearInterval(interval);
-          
+
           // Complete booking and send notification
           setBookings(prevBookings => {
             const updated = prevBookings.map(b => b.id === activeTrackingBooking.id ? { ...b, status: 'completed' as 'completed', etaMinutes: 0 } : b);
