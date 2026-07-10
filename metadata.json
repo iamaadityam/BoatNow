@@ -1,8 +1,0 @@
-{
-  "name": "BoatNow",
-  "description": "India's #1 On-Demand Urban Water Mobility Platform. Satirical emergency boat ride-hailing for flooded city streets.",
-  "requestFramePermissions": ["geolocation"],
-  "majorCapabilities": [
-    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
-  ]
-}
