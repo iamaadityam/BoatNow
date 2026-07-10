@@ -593,11 +593,11 @@ export const CustomerDashboard: React.FC = () => {
                     onError={(e) => {
                       const target = e.currentTarget;
                       target.onerror = null;
-                      let fallback = '/images/boats/canoe.jpg';
-                      if (b.type === 'motorboat') fallback = '/images/boats/motorboat.jpg';
-                      else if (b.type === 'shikara') fallback = '/images/boats/shikara.jpg';
-                      else if (b.type === 'kayak') fallback = '/images/boats/kayak.jpg';
-                      else if (b.type === 'raft') fallback = '/images/boats/raft.jpg';
+                      let fallback = '/images/boats/canoe.png';
+                      if (b.type === 'motorboat') fallback = '/images/boats/motorboat.png';
+                      else if (b.type === 'shikara') fallback = '/images/boats/shikara.png';
+                      else if (b.type === 'kayak') fallback = '/images/boats/kayak.png';
+                      else if (b.type === 'raft') fallback = '/images/boats/raft.png';
                       target.src = fallback;
                     }}
                   />
@@ -827,11 +827,11 @@ export const CustomerDashboard: React.FC = () => {
                 onError={(e) => {
                   const target = e.currentTarget;
                   target.onerror = null;
-                  let fallback = '/images/boats/canoe.jpg';
-                  if (selectedBoat.type === 'motorboat') fallback = '/images/boats/motorboat.jpg';
-                  else if (selectedBoat.type === 'shikara') fallback = '/images/boats/shikara.jpg';
-                  else if (selectedBoat.type === 'kayak') fallback = '/images/boats/kayak.jpg';
-                  else if (selectedBoat.type === 'raft') fallback = '/images/boats/raft.jpg';
+                  let fallback = '/images/boats/canoe.png';
+                  if (selectedBoat.type === 'motorboat') fallback = '/images/boats/motorboat.png';
+                  else if (selectedBoat.type === 'shikara') fallback = '/images/boats/shikara.png';
+                  else if (selectedBoat.type === 'kayak') fallback = '/images/boats/kayak.png';
+                  else if (selectedBoat.type === 'raft') fallback = '/images/boats/raft.png';
                   target.src = fallback;
                 }}
               />

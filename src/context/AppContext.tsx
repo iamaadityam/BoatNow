@@ -128,6 +128,10 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             url = '/images/boats/raft.png';
           }
 
+          if (url.startsWith('/images/boats/') && url.endsWith('.jpg')) {
+            url = url.replace('.jpg', '.png');
+          }
+
           if (capUrl && (capUrl.includes('photo-1507003211169-0a1dd7228f2d') || capUrl.includes('verma'))) {
             capUrl = '/images/captains/verma.jpg';
           } else if (capUrl && (capUrl.includes('photo-1500648767791-00dcc994a43e') || capUrl.includes('singh'))) {

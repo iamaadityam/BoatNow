@@ -45,11 +45,11 @@ export const OwnerDashboard: React.FC = () => {
     // Choose nice presets based on boat type if none provided
     let finalImg = imgUrl;
     if (!finalImg) {
-      if (boatType === 'motorboat') finalImg = '/images/boats/motorboat.jpg';
-      else if (boatType === 'shikara') finalImg = '/images/boats/shikara.jpg';
-      else if (boatType === 'kayak') finalImg = '/images/boats/kayak.jpg';
-      else if (boatType === 'raft') finalImg = '/images/boats/raft.jpg';
-      else finalImg = '/images/boats/canoe.jpg';
+      if (boatType === 'motorboat') finalImg = '/images/boats/motorboat.png';
+      else if (boatType === 'shikara') finalImg = '/images/boats/shikara.png';
+      else if (boatType === 'kayak') finalImg = '/images/boats/kayak.png';
+      else if (boatType === 'raft') finalImg = '/images/boats/raft.png';
+      else finalImg = '/images/boats/canoe.png';
     }
 
     registerBoat({
@@ -289,11 +289,11 @@ export const OwnerDashboard: React.FC = () => {
                         onError={(e) => {
                           const target = e.currentTarget;
                           target.onerror = null;
-                          let fallback = '/images/boats/canoe.jpg';
-                          if (b.type === 'motorboat') fallback = '/images/boats/motorboat.jpg';
-                          else if (b.type === 'shikara') fallback = '/images/boats/shikara.jpg';
-                          else if (b.type === 'kayak') fallback = '/images/boats/kayak.jpg';
-                          else if (b.type === 'raft') fallback = '/images/boats/raft.jpg';
+                          let fallback = '/images/boats/canoe.png';
+                          if (b.type === 'motorboat') fallback = '/images/boats/motorboat.png';
+                          else if (b.type === 'shikara') fallback = '/images/boats/shikara.png';
+                          else if (b.type === 'kayak') fallback = '/images/boats/kayak.png';
+                          else if (b.type === 'raft') fallback = '/images/boats/raft.png';
                           target.src = fallback;
                         }}
                       />
