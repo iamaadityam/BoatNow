@@ -193,7 +193,7 @@ It is **not** an actual transportation service and is not affiliated with any re
 
 🐙 GitHub: https://github.com/iamaadityam
 
-💼 LinkedIn: *(Add your LinkedIn profile)*
+💼 LinkedIn: https://www.linkedin.com/in/malhotra-aaditya
 
 ---
 
