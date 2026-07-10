@@ -93,7 +93,7 @@ export const INITIAL_BOATS: Boat[] = [
     reviewsCount: 12,
     distanceKm: 0.8,
     nextAvailableTime: 'Within 5 minutes',
-    imageUrl: 'https://images.unsplash.com/photo-1540959733332-eab4deceeaf7?auto=format&fit=crop&q=80&w=600',
+    imageUrl: '/images/boats/canoe.jpg',
     description: 'A premium hand-crafted wooden canoe engineered specifically for urban watercourses, pothole-dodging, and heavy street currents. Captain Verma has over 15 years of experience paddling through Delhi waterlogs. Comes with double-varnished cedarwood paddles.',
     isCovered: false,
     isPetFriendly: true,
@@ -104,7 +104,7 @@ export const INITIAL_BOATS: Boat[] = [
     coordinates: { x: 38, y: 45 },
     captainName: 'Captain Verma',
     captainRating: 4.9,
-    captainAvatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150',
+    captainAvatarUrl: '/images/captains/verma.jpg',
     status: 'active'
   },
   {
@@ -119,7 +119,7 @@ export const INITIAL_BOATS: Boat[] = [
     reviewsCount: 34,
     distanceKm: 1.4,
     nextAvailableTime: 'Immediate Splash',
-    imageUrl: 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&q=80&w=600',
+    imageUrl: '/images/boats/motorboat.jpg',
     description: 'Fitted with a 40hp quiet Yamaha outboard motor. Literally zips over submerged scooters, floating tires, and flooded service lanes. Complete with a clear vinyl canopy to protect passengers from monsoon deluges.',
     isCovered: true,
     isPetFriendly: true,
@@ -130,7 +130,7 @@ export const INITIAL_BOATS: Boat[] = [
     coordinates: { x: 55, y: 32 },
     captainName: 'Captain Singh',
     captainRating: 4.8,
-    captainAvatarUrl: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150',
+    captainAvatarUrl: '/images/captains/singh.jpg',
     status: 'active'
   },
   {
@@ -145,7 +145,7 @@ export const INITIAL_BOATS: Boat[] = [
     reviewsCount: 8,
     distanceKm: 2.1,
     nextAvailableTime: 'In 12 minutes',
-    imageUrl: 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&q=80&w=600',
+    imageUrl: '/images/boats/shikara.jpg',
     description: 'An elegant Dal-lake style luxury shikara decorated with traditional silk drapes. Best for romantic flood-evacuations, premium office commutes, or highly instagrammable waterlogging content. Cushions are fully water-resistant.',
     isCovered: true,
     isPetFriendly: false,
@@ -156,23 +156,23 @@ export const INITIAL_BOATS: Boat[] = [
     coordinates: { x: 62, y: 58 },
     captainName: 'Captain Mukherjee',
     captainRating: 4.7,
-    captainAvatarUrl: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150',
+    captainAvatarUrl: '/images/captains/mukherjee.jpg',
     status: 'active'
   },
   {
     id: 'boat-4',
-    name: 'Yellow Submarine Raft (SOS Certified)',
+    name: 'Submarine Raft SOS Certified',
     ownerId: 'owner-rajesh',
     ownerName: 'Captain Rajesh',
     type: 'raft',
-    capacity: 8,
-    pricePerHour: 350,
-    rating: 4.4,
-    reviewsCount: 19,
+    capacity: 12,
+    pricePerHour: 450,
+    rating: 4.9,
+    reviewsCount: 42,
     distanceKm: 0.5,
     nextAvailableTime: 'In 3 minutes',
-    imageUrl: 'https://images.unsplash.com/photo-1559136555-9303baea8ebd?auto=format&fit=crop&q=80&w=600',
-    description: 'A heavy-duty military-grade inflatable white-water raft. Unsinkable, bounceable, and highly resilient to floating street poles or submerged divider curbs. Captain Rajesh handles it like a wild bull and loves playing high-energy music.',
+    imageUrl: '/images/boats/raft.jpg',
+    description: 'A massive, nuclear-grade SOS-certified tactical submarine raft engineered for extreme monsoon conditions, deep-water street trenches, and underwater navigation. This industrial-strength powerhouse can dive beneath completely submerged Delhi underpasses and bypass any traffic blockages. Features dual-propeller propulsion and multi-ton hydraulic stabilizers.',
     isCovered: false,
     isPetFriendly: true,
     isWheelchairAccessible: true,
@@ -182,7 +182,7 @@ export const INITIAL_BOATS: Boat[] = [
     coordinates: { x: 42, y: 52 },
     captainName: 'Captain Rajesh',
     captainRating: 4.5,
-    captainAvatarUrl: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=150',
+    captainAvatarUrl: '/images/captains/rajesh.jpg',
     status: 'active'
   },
   {
@@ -197,7 +197,7 @@ export const INITIAL_BOATS: Boat[] = [
     reviewsCount: 6,
     distanceKm: 3.2,
     nextAvailableTime: 'In 20 minutes',
-    imageUrl: 'https://images.unsplash.com/photo-1517176118179-c554e7686550?auto=format&fit=crop&q=80&w=600',
+    imageUrl: '/images/boats/kayak.jpg',
     description: 'Perfect for lone-wolf corporate employees who need to reach an urgent stand-up meeting. High-performance fiberglass kayak. Note: You must paddle yourself while Captain Verma gives encouraging instructions from his loudspeaker.',
     isCovered: false,
     isPetFriendly: false,
@@ -208,7 +208,7 @@ export const INITIAL_BOATS: Boat[] = [
     coordinates: { x: 25, y: 65 },
     captainName: 'Captain Verma',
     captainRating: 4.9,
-    captainAvatarUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150',
+    captainAvatarUrl: '/images/captains/verma.jpg',
     status: 'active'
   }
 ];

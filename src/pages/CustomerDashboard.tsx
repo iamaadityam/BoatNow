@@ -21,6 +21,108 @@ export const CustomerDashboard: React.FC = () => {
   // Selected Pickup / Map Coordinates (default central)
   const [pickupCoords, setPickupCoords] = useState({ x: 50, y: 50 });
 
+  // Dynamic custom state for Puddle Severity simulator
+  const [puddleDepth, setPuddleDepth] = useState<number>(
+    floodSeverity === 'dry' ? 0.4 : floodSeverity === 'ankle_deep' ? 2.5 : 8.2
+  );
+  const [selectedRouteId, setSelectedRouteId] = useState<string>('cp_underpass');
+  const [isLightning, setIsLightning] = useState<boolean>(false);
+
+  // Dynamic audio cue simulator
+  const playMonsoonBeep = (type: 'thunder' | 'drizzle' | 'surge') => {
+    try {
+      const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioCtx) return;
+      const ctx = new AudioCtx();
+      
+      if (type === 'thunder') {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(55, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(10, ctx.currentTime + 1.2);
+        
+        gain.gain.setValueAtTime(0.35, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 1.2);
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 1.3);
+      } else if (type === 'surge') {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(880, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(440, ctx.currentTime + 0.35);
+        
+        gain.gain.setValueAtTime(0.18, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.35);
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.4);
+      } else {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(350, ctx.currentTime);
+        osc.frequency.linearRampToValueAtTime(1100, ctx.currentTime + 0.2);
+        
+        gain.gain.setValueAtTime(0.12, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.25);
+        
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.25);
+      }
+    } catch (e) {
+      // AudioContext failed
+    }
+  };
+
+  const DELHI_ROUTES = [
+    { id: 'cp_underpass', name: 'CP Pillar 124 to Super-Market Basin', baseDist: 1.2, basePrice: 200 },
+    { id: 'lajpat_lake', name: 'Lajpat Flyover to Central Market Pool', baseDist: 3.4, basePrice: 450 },
+    { id: 'noida_logway', name: 'Noida Sector 62 Balcony to Harbor', baseDist: 5.8, basePrice: 700 },
+    { id: 'iit_puddle', name: 'IIT Flyover Rapids to Hauz Khas Water-Park', baseDist: 2.5, basePrice: 350 },
+  ];
+
+  const handleDepthChange = (depth: number) => {
+    setPuddleDepth(depth);
+    if (depth <= 1.5) {
+      if (floodSeverity !== 'dry') setFloodSeverity('dry');
+    } else if (depth <= 5.0) {
+      if (floodSeverity !== 'ankle_deep') setFloodSeverity('ankle_deep');
+    } else {
+      if (floodSeverity !== 'boat_recommended') setFloodSeverity('boat_recommended');
+    }
+  };
+
+  const getPuddleAdvisory = (depth: number) => {
+    if (depth <= 0.5) return '☀️ Dry. Captains playing Ludo & drinking paan on the boardwalk.';
+    if (depth <= 1.5) return '💧 Light drizzle. Shallow water logs. Cycle-rickshaws still functional.';
+    if (depth <= 3.5) return '🟡 Exhaust pipe alert! Sedan owners are sweating. Active puddle bypass advised.';
+    if (depth <= 5.5) return '🌧️ Bumper deep water. Scooters stalled near Lajpat. Rowing is highly lucrative.';
+    if (depth <= 8.5) return '🚨 Submarine mode! SUVs are floating. Connaught Place arches function as piers.';
+    return '⛈️ Atlantis of Delhi. Class IV white-water rapids active. Rowers are supreme rulers.';
+  };
+
+  const triggerCloudburst = () => {
+    setIsLightning(true);
+    playMonsoonBeep('thunder');
+    setTimeout(() => setIsLightning(false), 150);
+    setTimeout(() => {
+      setIsLightning(true);
+      setTimeout(() => setIsLightning(false), 100);
+    }, 250);
+    
+    // Set depth to maximum!
+    handleDepthChange(11.8);
+  };
+
   // Filter States
   const [maxPrice, setMaxPrice] = useState<number>(1500);
   const [minCapacity, setMinCapacity] = useState<number>(1);
@@ -195,7 +297,10 @@ export const CustomerDashboard: React.FC = () => {
   const weatherTheme = getWeatherTheme();
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
+      {isLightning && (
+        <div className="fixed inset-0 z-50 bg-white pointer-events-none opacity-90 transition-opacity" />
+      )}
       
       {/* Humorous Banner / Dynamic Environment Weather Hero */}
       <section className={`relative overflow-hidden rounded-3xl bg-gradient-to-r ${weatherTheme.bg} p-6 text-white shadow-lg transition-all duration-700`}>
@@ -278,32 +383,110 @@ export const CustomerDashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Card 2: Flood Level Simulator */}
-        <div className="rounded-3xl border border-blue-50 bg-white p-5 dark:border-slate-800 dark:bg-slate-900 shadow-sm">
-          <span className="text-[10px] font-black text-blue-600 dark:text-cyan-400 uppercase tracking-widest">🌦️ PUDDLE SEVERITY SIMULATOR</span>
-          <h3 className="mt-2 font-sans text-base font-black text-slate-800 dark:text-white">Delhi Street Water levels</h3>
-          <p className="mt-1 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-            Adjust the severity of rainfall. Higher levels trigger surge pricing for captains (+20% for boat recommended!).
-          </p>
-          <div className="mt-4 grid grid-cols-3 gap-1.5">
-            {[
-              { id: 'dry', label: '🟢 Dry', color: 'hover:bg-emerald-50 dark:hover:bg-emerald-950/20' },
-              { id: 'ankle_deep', label: '🟡 Ankle', color: 'hover:bg-amber-50 dark:hover:bg-amber-950/20' },
-              { id: 'boat_recommended', label: '🔴 Deep', color: 'hover:bg-red-50 dark:hover:bg-red-950/20' }
-            ].map(lvl => (
-              <button
-                key={lvl.id}
-                onClick={() => setFloodSeverity(lvl.id as any)}
-                className={`rounded-xl py-2 text-center text-xs font-bold transition-all border ${
-                  floodSeverity === lvl.id
-                    ? 'border-blue-600 bg-blue-50 text-blue-700 dark:border-cyan-500 dark:bg-slate-800 dark:text-cyan-400 scale-105 shadow-sm'
-                    : `border-slate-100 dark:border-slate-800 text-slate-500 dark:text-slate-400 ${lvl.color}`
-                }`}
-                id={`btn-severity-${lvl.id}`}
+        {/* Card 2: Interactive Flood Level Simulator */}
+        <div className="rounded-3xl border border-blue-100 bg-gradient-to-b from-white to-blue-50/20 p-5 dark:border-slate-800 dark:from-slate-900 dark:to-slate-950/40 shadow-md flex flex-col justify-between space-y-4">
+          <div>
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] font-black text-blue-600 dark:text-cyan-400 uppercase tracking-widest">🌦️ PUDDLE SEVERITY SIMULATOR</span>
+              <button 
+                onClick={triggerCloudburst}
+                className="inline-flex items-center gap-1 rounded-full bg-amber-500 hover:bg-amber-600 text-white font-black text-[9px] px-2 py-0.5 transition-all shadow shadow-amber-500/30"
+                title="Simulate sudden thunderstorm & lightning strike"
               >
-                {lvl.label}
+                ⛈️ Cloudburst!
               </button>
-            ))}
+            </div>
+            
+            {/* Quick Severity Buttons */}
+            <div className="mt-3 grid grid-cols-3 gap-1.5">
+              {[
+                { id: 'dry', label: '🟢 Dry', targetDepth: 0.4 },
+                { id: 'ankle_deep', label: '🟡 Ankle', targetDepth: 2.5 },
+                { id: 'boat_recommended', label: '🔴 Deep', targetDepth: 8.2 }
+              ].map(lvl => (
+                <button
+                  key={lvl.id}
+                  onClick={() => {
+                    handleDepthChange(lvl.targetDepth);
+                    playMonsoonBeep('drizzle');
+                  }}
+                  className={`rounded-xl py-1 text-center text-[11px] font-bold transition-all border ${
+                    floodSeverity === lvl.id
+                      ? 'border-blue-600 bg-blue-100 text-blue-700 dark:border-cyan-500 dark:bg-slate-800 dark:text-cyan-400 scale-105 shadow-sm'
+                      : 'border-slate-100 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/40'
+                  }`}
+                  id={`btn-severity-${lvl.id}`}
+                >
+                  {lvl.label}
+                </button>
+              ))}
+            </div>
+
+            {/* Depth Slider */}
+            <div className="mt-4 space-y-1">
+              <div className="flex items-center justify-between text-[11px]">
+                <span className="font-semibold text-slate-500 dark:text-slate-400">Puddle Depth Gauge:</span>
+                <span className="font-black font-mono text-blue-600 dark:text-cyan-400">{puddleDepth.toFixed(1)} feet</span>
+              </div>
+              <input
+                type="range"
+                min="0.0"
+                max="12.0"
+                step="0.1"
+                value={puddleDepth}
+                onChange={(e) => {
+                  const val = parseFloat(e.target.value);
+                  handleDepthChange(val);
+                }}
+                className="w-full h-1.5 bg-blue-100 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-blue-600 dark:accent-cyan-400"
+              />
+            </div>
+
+            {/* Dynamic Advisory Box */}
+            <div className="mt-3 rounded-2xl bg-blue-50/50 p-2.5 dark:bg-slate-800/30 border border-blue-100/30">
+              <p className="text-[11px] text-slate-600 dark:text-slate-300 font-medium leading-relaxed italic">
+                {getPuddleAdvisory(puddleDepth)}
+              </p>
+            </div>
+          </div>
+
+          {/* Mini-Route Fare surge estimator */}
+          <div className="border-t border-slate-100 dark:border-slate-800 pt-3">
+            <label className="block text-[9px] font-black uppercase text-slate-400 tracking-wider mb-1">
+              📍 Live Route Price Estimator
+            </label>
+            <div className="flex gap-1.5">
+              <select
+                value={selectedRouteId}
+                onChange={(e) => {
+                  setSelectedRouteId(e.target.value);
+                  playMonsoonBeep('surge');
+                }}
+                className="flex-1 rounded-xl border border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 px-2 py-1 text-[11px] font-bold text-slate-700 dark:text-slate-300 focus:outline-none focus:border-blue-500"
+              >
+                {DELHI_ROUTES.map(route => (
+                  <option key={route.id} value={route.id}>
+                    {route.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            
+            {(() => {
+              const route = DELHI_ROUTES.find(r => r.id === selectedRouteId) || DELHI_ROUTES[0];
+              const multiplier = floodSeverity === 'boat_recommended' ? 1.2 : floodSeverity === 'dry' ? 0.8 : 1.0;
+              const estPrice = Math.round(route.basePrice * multiplier);
+              return (
+                <div className="mt-2 flex items-center justify-between text-[11px] bg-slate-50 dark:bg-slate-800/20 px-2 py-1 rounded-xl">
+                  <span className="text-slate-400">
+                    Oar Fare ({route.baseDist}km):
+                  </span>
+                  <span className="font-black text-blue-600 dark:text-cyan-400">
+                    ₹{estPrice} <span className="text-[9px] font-normal text-slate-400">({multiplier.toFixed(1)}x)</span>
+                  </span>
+                </div>
+              );
+            })()}
           </div>
         </div>
 
@@ -407,6 +590,16 @@ export const CustomerDashboard: React.FC = () => {
                     alt={b.name} 
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     referrerPolicy="no-referrer"
+                    onError={(e) => {
+                      const target = e.currentTarget;
+                      target.onerror = null;
+                      let fallback = '/images/boats/canoe.jpg';
+                      if (b.type === 'motorboat') fallback = '/images/boats/motorboat.jpg';
+                      else if (b.type === 'shikara') fallback = '/images/boats/shikara.jpg';
+                      else if (b.type === 'kayak') fallback = '/images/boats/kayak.jpg';
+                      else if (b.type === 'raft') fallback = '/images/boats/raft.jpg';
+                      target.src = fallback;
+                    }}
                   />
                   
                   {/* Distance bubble */}
@@ -435,6 +628,19 @@ export const CustomerDashboard: React.FC = () => {
                       alt={b.captainName} 
                       className="h-6 w-6 rounded-full object-cover border" 
                       referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        target.onerror = null;
+                        const fallbackAvatars = [
+                          '/images/captains/verma.jpg',
+                          '/images/captains/singh.jpg',
+                          '/images/captains/mukherjee.jpg',
+                          '/images/captains/rajesh.jpg',
+                          '/images/captains/default.jpg'
+                        ];
+                        const hash = (b.captainName || 'captain').split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+                        target.src = fallbackAvatars[hash % fallbackAvatars.length];
+                      }}
                     />
                     <div className="text-left flex-1">
                       <p className="text-[11px] font-black text-slate-800 dark:text-slate-200">{b.captainName}</p>
@@ -618,6 +824,16 @@ export const CustomerDashboard: React.FC = () => {
                 alt={selectedBoat.name} 
                 className="h-full w-full object-cover"
                 referrerPolicy="no-referrer"
+                onError={(e) => {
+                  const target = e.currentTarget;
+                  target.onerror = null;
+                  let fallback = '/images/boats/canoe.jpg';
+                  if (selectedBoat.type === 'motorboat') fallback = '/images/boats/motorboat.jpg';
+                  else if (selectedBoat.type === 'shikara') fallback = '/images/boats/shikara.jpg';
+                  else if (selectedBoat.type === 'kayak') fallback = '/images/boats/kayak.jpg';
+                  else if (selectedBoat.type === 'raft') fallback = '/images/boats/raft.jpg';
+                  target.src = fallback;
+                }}
               />
               <button 
                 onClick={() => setSelectedBoat(null)}
@@ -644,6 +860,19 @@ export const CustomerDashboard: React.FC = () => {
                   alt={selectedBoat.captainName} 
                   className="h-10 w-10 rounded-full object-cover border-2 border-blue-400" 
                   referrerPolicy="no-referrer"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.onerror = null;
+                    const fallbackAvatars = [
+                      '/images/captains/verma.jpg',
+                      '/images/captains/singh.jpg',
+                      '/images/captains/mukherjee.jpg',
+                      '/images/captains/rajesh.jpg',
+                      '/images/captains/default.jpg'
+                    ];
+                    const hash = (selectedBoat.captainName || 'captain').split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+                    target.src = fallbackAvatars[hash % fallbackAvatars.length];
+                  }}
                 />
                 <div className="text-left flex-1">
                   <h4 className="text-xs font-black text-slate-800 dark:text-white">{selectedBoat.captainName}</h4>

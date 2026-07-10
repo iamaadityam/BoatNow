@@ -111,7 +111,42 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     // 5. Boats
     const storedBoats = localStorage.getItem('bn_boats');
     if (storedBoats) {
-      setBoats(JSON.parse(storedBoats));
+      try {
+        const parsedBoats = JSON.parse(storedBoats) as Boat[];
+        const upgraded = parsedBoats.map(b => {
+          let url = b.imageUrl;
+          let capUrl = b.captainAvatarUrl;
+          if (url.includes('photo-1540959733332-eab4deceeaf7') || url.includes('photo-1505244208262-191301f22ced') || url.includes('amazon') || url.includes('I/81HVM5DoAQL')) {
+            url = '/images/boats/canoe.jpg';
+          } else if (url.includes('photo-1567899378494-47b22a2ae96a') || url.includes('photo-1569263979104-865ab7cd8d13')) {
+            url = '/images/boats/motorboat.jpg';
+          } else if (url.includes('photo-1590490360182-c33d57733427') || url.includes('photo-1621252179027-94459d278660')) {
+            url = '/images/boats/shikara.jpg';
+          } else if (url.includes('photo-1517176118179-c554e7686550') || url.includes('photo-1500375592092-40eb2168fd21') || url.includes('photo-1544551763-46a013bb70d5')) {
+            url = '/images/boats/kayak.jpg';
+          } else if (url.includes('PCU_Indiana') || url.includes('wikimedia.org') || url.includes('photo-1559136555-9303baea8ebd')) {
+            url = '/images/boats/raft.jpg';
+          }
+
+          if (capUrl && (capUrl.includes('photo-1507003211169-0a1dd7228f2d') || capUrl.includes('verma'))) {
+            capUrl = '/images/captains/verma.jpg';
+          } else if (capUrl && (capUrl.includes('photo-1500648767791-00dcc994a43e') || capUrl.includes('singh'))) {
+            capUrl = '/images/captains/singh.jpg';
+          } else if (capUrl && (capUrl.includes('photo-1472099645785-5658abf4ff4e') || capUrl.includes('mukherjee'))) {
+            capUrl = '/images/captains/mukherjee.jpg';
+          } else if (capUrl && (capUrl.includes('photo-1519085360753-af0119f7cbe7') || capUrl.includes('rajesh'))) {
+            capUrl = '/images/captains/rajesh.jpg';
+          } else if (capUrl && (capUrl.includes('photo-1534528741775-53994a69daeb') || capUrl.includes('default'))) {
+            capUrl = '/images/captains/default.jpg';
+          }
+          return { ...b, imageUrl: url, captainAvatarUrl: capUrl };
+        });
+        setBoats(upgraded);
+        localStorage.setItem('bn_boats', JSON.stringify(upgraded));
+      } catch (err) {
+        setBoats(INITIAL_BOATS);
+        localStorage.setItem('bn_boats', JSON.stringify(INITIAL_BOATS));
+      }
     } else {
       setBoats(INITIAL_BOATS);
       localStorage.setItem('bn_boats', JSON.stringify(INITIAL_BOATS));
@@ -251,7 +286,7 @@ export const AppProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       },
       captainName: currentUser.name,
       captainRating: 5.0,
-      captainAvatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150',
+      captainAvatarUrl: '/images/captains/default.jpg',
       status: 'active'
     };
 

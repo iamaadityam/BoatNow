@@ -42,13 +42,14 @@ export const OwnerDashboard: React.FC = () => {
   const handleCreateBoatSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Choose nice unsplash presets based on boat type if none provided
+    // Choose nice presets based on boat type if none provided
     let finalImg = imgUrl;
     if (!finalImg) {
-      if (boatType === 'motorboat') finalImg = 'https://images.unsplash.com/photo-1567899378494-47b22a2ae96a?auto=format&fit=crop&q=80&w=600';
-      else if (boatType === 'shikara') finalImg = 'https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&q=80&w=600';
-      else if (boatType === 'kayak') finalImg = 'https://images.unsplash.com/photo-1517176118179-c554e7686550?auto=format&fit=crop&q=80&w=600';
-      else finalImg = 'https://images.unsplash.com/photo-1540959733332-eab4deceeaf7?auto=format&fit=crop&q=80&w=600';
+      if (boatType === 'motorboat') finalImg = '/images/boats/motorboat.jpg';
+      else if (boatType === 'shikara') finalImg = '/images/boats/shikara.jpg';
+      else if (boatType === 'kayak') finalImg = '/images/boats/kayak.jpg';
+      else if (boatType === 'raft') finalImg = '/images/boats/raft.jpg';
+      else finalImg = '/images/boats/canoe.jpg';
     }
 
     registerBoat({
@@ -280,7 +281,22 @@ export const OwnerDashboard: React.FC = () => {
                 {myBoats.map(b => (
                   <div key={b.id} className="rounded-2xl border border-slate-100 p-3.5 space-y-2 dark:border-slate-800 dark:bg-slate-800/10">
                     <div className="relative h-28 rounded-xl overflow-hidden bg-slate-100">
-                      <img src={b.imageUrl} alt={b.name} className="h-full w-full object-cover" referrerPolicy="no-referrer" />
+                      <img 
+                        src={b.imageUrl} 
+                        alt={b.name} 
+                        className="h-full w-full object-cover" 
+                        referrerPolicy="no-referrer" 
+                        onError={(e) => {
+                          const target = e.currentTarget;
+                          target.onerror = null;
+                          let fallback = '/images/boats/canoe.jpg';
+                          if (b.type === 'motorboat') fallback = '/images/boats/motorboat.jpg';
+                          else if (b.type === 'shikara') fallback = '/images/boats/shikara.jpg';
+                          else if (b.type === 'kayak') fallback = '/images/boats/kayak.jpg';
+                          else if (b.type === 'raft') fallback = '/images/boats/raft.jpg';
+                          target.src = fallback;
+                        }}
+                      />
                       <span className={`absolute right-2 top-2 rounded-lg px-2 py-0.5 text-[9px] font-bold uppercase tracking-wider ${
                         b.status === 'active' ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'
                       }`}>
