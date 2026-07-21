@@ -24,6 +24,16 @@ import {
 
 const CERTIFICATIONS = [
   {
+    icon: Brain,
+    title: 'Build with AI',
+    org: 'Google for Developers',
+    year: '2026',
+    link: 'https://certificate.hack2skill.com/verify/2026H2S07BWAIBDEL-P00175',
+    color: 'from-blue-500 to-cyan-500',
+    bgColor: 'bg-blue-500/10',
+    category: 'AI',
+  },
+  {
     icon: Award,
     title: 'GenAI- Digital Marketing',
     org: 'WsCube',
